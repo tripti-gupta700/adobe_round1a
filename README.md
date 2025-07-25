@@ -24,16 +24,24 @@ Step 2: Run the Docker Container
 
 ## Folder Structure
 ├── main.py
+
 ├── requirements.txt
+
 ├── Dockerfile
+
 ├── input/               
+
 ├── output/             
+
 ├── README.md
+
 └── approach_explanation.md
 
 ## Benefits { How does this project help Adobe? }
  -- Everything runs offline
- -- no APIs or online dependencies are used. 
+ 
+ -- no APIs or online dependencies are used.
+ 
  -- Once the image is built, Docker runs everything inside the container.
 
 Acknowledgment
