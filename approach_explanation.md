@@ -1,4 +1,4 @@
-Here's how I solved the heading detection task:
+This document outlines the thought process and implementation steps followed to solve the heading detection challenge from Adobe’s Summer Internship Hackathon Round 1A.
 
 ## Understanding the Problem
 
@@ -7,13 +7,27 @@ The goal was to detect headings in a PDF based on font size and return them in a
 ## My Step-by-Step Approach
 
 1. **Text Extraction**:  
-   We have used `PyMuPDF` (also called `fitz`) to extract text, font sizes, and page numbers from each block of the PDF.
+  We used PyMuPDF (also known as fitz) for parsing PDFs. It allowed us to extract:
+   1.Text blocks
+   2.Font sizes
+   3.Page numbers
+
 
 2. **Font Size Analysis**:  
-   We have collected all font sizes used in the document and picked the top 3 largest ones — assuming the biggest text is H1, then H2, then H3.
+  We analyzed all font sizes used across the document and identified the top 3 largest:
+  The assumption: larger text generally indicates higher-level headings
+  Mapped the sizes to:
+  H1 → Largest font
+  H2 → Second largest
+  H3 → Third largest
+
+
 
 3. **Heading Mapping**:  
-   For every line of text, I checked its font size and matched it with H1, H2, or H3.
+   For each line of text:
+   We matched its font size with the H1, H2, or H3 thresholds
+   If a match was found, the line was tagged as a heading with its corresponding level and page number
+
 
 4. **JSON Creation**:  
    saved the output in this format:
@@ -29,17 +43,21 @@ Multi-PDF Support:
 The script processes every PDF in the /input folder and generates one JSON file per document inside /output.
 
 ## Assumptions Made
-Headings are only differentiated by font size, not bold/italic/style.
+Font size is the only determinant of heading level (no use of bold/italic/style for simplicity)
 
-The largest font in the PDF is considered H1, next two are H2 and H3.
+The largest font in the document is considered H1, followed by H2 and H3
 
-If fewer than 3 sizes exist, fallback sizes are used to avoid errors.
+If the document has fewer than 3 unique font sizes, fallback logic prevents errors and still assigns heading levels accordingly
 
 ## Dockerization
-I added a Dockerfile so everything can run inside a container. No need to install anything except Docker.
+To ensure portability and compliance with the offline requirement, we containerized the solution using Docker. No additional installation is required beyond Docker itself.
 
 ## Command used to run:
 docker run --rm -v %cd%/input:/app/input -v %cd%/output:/app/output mypdfapp
 
-I’m still learning but tried to do this project on my own from scratch — if anything breaks, I’ll try to improve it. Thank you for reviewing!
+Final Thoughts
+This project was a valuable learning experience — from working with document layouts to containerizing Python apps. While I'm still learning, I’ve built this from scratch and am excited to improve and extend it further.
+
+Thank you for reviewing!
+
 
